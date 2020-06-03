@@ -15,5 +15,4 @@ jobs:
       with:
         GH_TOKEN: ${{secrets.GH_TOKEN}}
         REPOSITORY: ${{env.GITHUB_REPOSITORY}}
-        RUBY_IMAGE: 'ruby:2.7.0-alpine'
-        docker-build-args: '--build-arg RUBY_IMAGE=$RUBY_IMAGE'
+        docker-build-args: '--build-arg RUBY_IMAGE=ruby:2.7.0-alpine'

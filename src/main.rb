@@ -12,5 +12,4 @@ outputs = `bundle _#{github_service.bundler_version}_ outdated  --only-explicit 
 parsing = Parsing.new(outputs)
 github_service.update_the_issue(parsing.data.size, parsing.to_md)
 
-
 # https://help.github.com/en/actions/creating-actions/creating-a-docker-container-action
