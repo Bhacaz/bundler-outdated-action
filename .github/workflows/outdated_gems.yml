@@ -1,0 +1,19 @@
+# This is a basic workflow to help you get started with Actions
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: Outdated gems
+    steps:
+    - name: Outdated gems step
+      uses: Bhacaz/bundler-outdated-action@v0.1
+      with:
+        GH_TOKEN: ${{secrets.GH_TOKEN}}
+        REPOSITORY: ${{GITHUB_REPOSITORY}}
+        RUBY_IMAGE: 'ruby:2.7.0-alpine'
+        docker-build-args: '--build-arg RUBY_IMAGE=$RUBY_IMAGE'
