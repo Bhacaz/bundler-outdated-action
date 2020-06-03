@@ -1,18 +1,22 @@
 name: Outdated gems
 description: Automatically update a issue with outdated gems
 inputs:
-  github-token:
+  GH_TOKEN:
     description: GitHub token secret
     required: true
-  ruby-version:
+  REPOSITORY:
+    description: ':username/:repo'
+    required: true
+  RUBY_IMAGE:
     description: The Ruby version
     required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.github-token }}
-    - ${{ inputs.ruby-version }}
+    - ${{ inputs.GH_TOKEN }}
+    - ${{ inputs.REPOSITORY }}
+    - ${{ inputs.RUBY_IMAGE }}
 branding:
   icon: bookmark
   color: purple
