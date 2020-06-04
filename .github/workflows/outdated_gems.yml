@@ -18,7 +18,7 @@ jobs:
         with:
           repository: 'Bhacaz/bundler-outdated-action'
       - name: 'Check outdated gems'
-        run: 'ruby src/main.rb'
+        run: 'cd src && ruby main.rb'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GEMFILE_REPOSITORY: ${{ github.repository	}} 

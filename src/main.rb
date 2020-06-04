@@ -3,8 +3,6 @@
 require_relative 'parsing'
 require_relative 'github_issue_service'
 
-p ENV
-
 github_service = GithubIssueService.new(ENV['GH_TOKEN'], ENV['GEMFILE_REPOSITORY'])
 github_service.download_gemfiles
 
