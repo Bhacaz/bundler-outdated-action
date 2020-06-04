@@ -13,7 +13,8 @@ jobs:
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: 2.7
-      - uses: actions/checkout@v2
+      - name: 'Pull outdated gem script'
+        uses: actions/checkout@v2
         with:
           repository: 'Bhacaz/bundler-outdated-action'
       - name: 'Check outdated gems'
