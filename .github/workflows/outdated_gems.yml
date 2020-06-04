@@ -13,8 +13,9 @@ jobs:
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: 2.7
-      - uses: Bhacaz/bundler-outdated-action@v0.4
+      - uses: actions/checkout@v2
         with:
+          repository: 'Bhacaz/bundler-outdated-action'
           GH_TOKEN: ${{secrets.GH_TOKEN}}
           REPOSITORY: ${{env.GITHUB_REPOSITORY}}
       - run: 'ruby src/main.rb' 
