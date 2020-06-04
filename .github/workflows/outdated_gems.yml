@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Outdated gems
     steps:
-    - name: Outdated gems step
-      uses: Bhacaz/bundler-outdated-action@v0.2
-      with:
-        GH_TOKEN: ${{secrets.GH_TOKEN}}
-        REPOSITORY: ${{env.GITHUB_REPOSITORY}}
-        docker-build-args: '--build-arg RUBY_IMAGE=ruby:2.7.0-alpine'
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.7.0
+      - uses: Bhacaz/bundler-outdated-action@v0.2
+        with:
+          GH_TOKEN: ${{secrets.GH_TOKEN}}
+          REPOSITORY: ${{env.GITHUB_REPOSITORY}}
+      - run: 'ruby src/main.rb' 
