@@ -3,7 +3,7 @@
 require_relative 'parsing'
 require_relative 'github_issue_service'
 
-github_service = GithubIssueService.new(ENV['GH_TOKEN'], ENV['REPOSITORY'])
+github_service = GithubIssueService.new(ENV['GH_TOKEN'], ENV['GEMFILE_REPOSITORY'])
 github_service.download_gemfiles
 
 `gem install bundler -v #{github_service.bundler_version}`
