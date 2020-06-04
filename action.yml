@@ -7,16 +7,12 @@ inputs:
   REPOSITORY:
     description: ':username/:repo'
     required: true
-  RUBY_IMAGE:
-    description: The Ruby version
-    required: true
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'node12'
+  main: 'main.js'
   args:
     - ${{ inputs.GH_TOKEN }}
     - ${{ inputs.REPOSITORY }}
-    - ${{ inputs.RUBY_IMAGE }}
 branding:
   icon: bookmark
   color: purple
