@@ -11,7 +11,6 @@ class GithubIssueService
   def download_gemfiles
     %w[Gemfile Gemfile.lock].each do |gemfile_path|
       content = @client.content(@repo, { path: gemfile_path })[:content]
-      p Base64.decode64(content)
       File.write(gemfile_path, Base64.decode64(content))
     end
   end
