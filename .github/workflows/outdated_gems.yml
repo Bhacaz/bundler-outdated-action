@@ -16,6 +16,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: 'Bhacaz/bundler-outdated-action'
+      - name: 'Check outdated gems'
+        env:
           GH_TOKEN: ${{secrets.GH_TOKEN}}
-          REPOSITORY: ${{env.GITHUB_REPOSITORY}}
-      - run: 'ruby src/main.rb' 
+          GEMFILE_REPOSITORY: ${{env.GITHUB_REPOSITORY}} 
+        run: 'ruby src/main.rb'
