@@ -4,7 +4,7 @@ inputs:
   GH_TOKEN:
     description: GitHub token secret
     required: true
-  REPOSITORY:
+  GEMFILE_REPOSITORY:
     description: ':username/:repo'
     required: true
 runs:
