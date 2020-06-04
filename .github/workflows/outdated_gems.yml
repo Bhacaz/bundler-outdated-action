@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Outdated gems
     steps:
-      - uses: actions/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.0'
       - name: 'Pull outdated gem script'
