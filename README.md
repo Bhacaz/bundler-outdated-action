@@ -31,6 +31,8 @@ _Last update: 2020-06-04 15:23:14 UTC_
 Example:
 
 ```yaml
+name: 'Outdated Gems'
+
 on:
   push:
     branches:
