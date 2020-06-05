@@ -30,7 +30,7 @@ class GithubIssueService
   private
 
   def find_the_issue
-    query = "#{ISSUE_TITLE}+repo:#{@repo}"
+    query = "#{ISSUE_TITLE}+repo:#{@repo}+type:issue"
     @client.search_issues(query, { page: 1, per_page: 1 })[:items]&.first
   end
 
