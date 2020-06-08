@@ -18,8 +18,6 @@ class Parsing
       `bundle outdated  --only-explicit --strict`
 
       #{table}
-
-      _Last update: #{Time.now.utc}_
     MARKDOWN
   end
 

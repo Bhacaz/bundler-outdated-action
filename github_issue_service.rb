@@ -16,10 +16,12 @@ class GithubIssueService
   end
 
   def bundler_version
-    file = File.open('Gemfile.lock', 'r')
-    version = file.each_line.to_a.last.strip
-    file.close
-    version
+    @bundler_version ||= begin
+      file = File.open('Gemfile.lock', 'r')
+      version = file.each_line.to_a.last.strip
+      file.close
+      version
+    end
   end
 
   def update_the_issue(outdated_count, body = nil)
