@@ -15,6 +15,8 @@ class Parsing
       table << "|#{rubygem_link(gem[:name])}|#{gem[:installed]}|#{gem[:newest]}|#{gem[:groups]}|\n"
     end
     <<~MARKDOWN
+      #{badge_link}
+
       `bundle outdated  --only-explicit --strict`
 
       #{table}
@@ -38,5 +40,9 @@ class Parsing
 
   def rubygem_link(gem_name)
     "[#{gem_name}](https://rubygems.org/gems/#{gem_name})"
+  end
+
+  def badge_link
+    "![#{ENV['GITHUB_WORKFLOW']}](https://github.com/#{ENV['GEMFILE_REPOSITORY']}/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg)"
   end
 end
