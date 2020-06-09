@@ -43,6 +43,7 @@ class Parsing
   end
 
   def badge_link
-    "![#{ENV['GITHUB_WORKFLOW']}](https://github.com/#{ENV['GEMFILE_REPOSITORY']}/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg)"
+    uri = URI.encode("https://github.com/#{ENV['GEMFILE_REPOSITORY']}/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg")
+    "![#{ENV['GITHUB_WORKFLOW']}](#{uri})"
   end
 end
