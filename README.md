@@ -55,5 +55,5 @@ jobs:
         run: 'ruby main.rb'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GEMFILE_REPOSITORY: ${{ github.repository	}} 
+          GEMFILE_REPOSITORY: ${{ github.repository }} 
 ```
