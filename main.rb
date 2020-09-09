@@ -8,6 +8,6 @@ github_service.download_gemfiles
 
 `gem install bundler -v #{github_service.bundler_version}`
 
-outputs = `bundle _#{github_service.bundler_version}_ outdated  --only-explicit --strict`
+outputs = `bundle _#{github_service.bundler_version}_ outdated --strict`
 parsing = Parsing.new(outputs)
-github_service.update_the_issue(parsing.data.size, parsing.to_md)
+github_service.update_the_issue(parsing.gems_explicit.size, parsing.to_md)

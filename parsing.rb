@@ -1,41 +1,70 @@
 class Parsing
+  EXPLICIT_REGEX = /\*\s(.+)\s\(.+?\s(.+?),.+?\s(.+?)\).+\"(.+)\"/.freeze
+  DEPENDENCIES_REGEX = /\*\s(.+)\s\(.+?\s(.+?),.+?\s(.+?)\)/.freeze
 
-  VALUES_REGEX = /\*\s(.+)\s\(.+?\s(.+?),.+?\s(.+?)\).+\"(.+)\"/.freeze
-
-  attr_accessor :data
+  attr_accessor :gems_explicit
 
   def initialize(output)
     @output = output
-    @data = extract_data
+    @gems_explicit = []
+    @gems_dependencies = []
+    extract_data
   end
 
   def to_md
-    table = +"|Gem|Installed|Newest|Groups|\n|---|---|---|---|\n"
-    @data.each do |gem|
-      table << "|#{rubygem_link(gem[:name])}|#{gem[:installed]}|#{gem[:newest]}|#{gem[:groups]}|\n"
-    end
     <<~MARKDOWN
       #{badge_link}
 
-      `bundle outdated  --only-explicit --strict`
+      `bundle outdated --strict`
 
-      #{table}
+      #{to_table}
+
+      <details>
+        <summary>Dependencies</summary>
+
+        #{to_table_dependencies}
+      </details>
     MARKDOWN
   end
 
   private
 
   def extract_data
-    gem_line = []
     @output.split("\n").each do |line|
-      gem_line << value_from_line(line) if line.include?('*')
+      if line.include?('*')
+        parsed_line = value_from_line(line)
+        if parsed_line[:groups]
+          @gems_explicit << parsed_line
+        else
+          @gems_dependencies << parsed_line
+        end
+      end
     end
-    @data = gem_line
   end
 
   def value_from_line(line)
-    name, newest, installed, groups = line.match(VALUES_REGEX).captures
+    if line.include?('groups')
+      name, newest, installed, groups = line.match(EXPLICIT_REGEX).captures
+    else
+      name, newest, installed, groups = line.match(DEPENDENCIES_REGEX).captures
+    end
     { name: name, newest: newest, installed: installed, groups: groups }
+  end
+
+  def to_table
+    table = +"|Gem|Installed|Newest|Groups|\n|---|---|---|---|\n"
+    @gems_explicit.each do |gem|
+      table << "|#{rubygem_link(gem[:name])}|#{gem[:installed]}|#{gem[:newest]}|#{gem[:groups]}|\n"
+    end
+    table
+  end
+
+  def to_table_dependencies
+    table = +"|Gem|Installed|Newest|\n|---|---|---|\n"
+    @gems_dependencies.each do |gem|
+      table << "|#{rubygem_link(gem[:name])}|#{gem[:installed]}|#{gem[:newest]}|\n"
+    end
+    table
   end
 
   def rubygem_link(gem_name)

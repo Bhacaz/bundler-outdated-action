@@ -7,7 +7,7 @@ The result look like this:
 ---
 # [Outdated gems (4)](https://github.com/Bhacaz/bundler-outdated-action/issues/1)
 
-`bundle outdated  --only-explicit --strict`
+`bundle outdated --strict`
 
 |Gem|Installed|Newest|Groups|
 |---|---|---|---|
@@ -16,17 +16,13 @@ The result look like this:
 |[sidekiq](https://rubygems.org/gems/sidekiq)|6.0.6|6.0.7|default|
 |[web-console](https://rubygems.org/gems/web-console)|4.0.1|4.0.2|development|
 
-
-_Last update: 2020-06-04 15:23:14 UTC_
-
 ---
 
 # To use
 
 1. Create a new workflows in your project (`.github/workflows/outdated_gems.yml`)
-2. Use the example below and change the `ruby-version` for the one your project use
-3. Create a [Personal access tokens](https://github.com/settings/tokens) with the scope `repo`
-4. Add the token in the secrets of your repository with the name `GH_TOKEN`
+2. Create a [Personal access tokens](https://github.com/settings/tokens) with the scope `repo`
+3. Add the token in the secrets of your repository with the name `GH_TOKEN`
 
 Example:
 
@@ -43,10 +39,13 @@ jobs:
     runs-on: ubuntu-latest
     name: Outdated gems
     steps:
+      - name: Checkout gemfiles
+        uses: Bhacaz/checkout-files@v1
+        with:
+          files: Gemfile Gemfile.lock .ruby-version
+          token: ${{ secrets.GH_TOKEN }}
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.7.0'
       - name: 'Pull outdated gem action script'
         uses: actions/checkout@v2
         with:
