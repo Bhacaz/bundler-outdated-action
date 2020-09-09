@@ -20,7 +20,7 @@ class Parsing
       #{to_table}
 
       <details>
-        <summary>Dependencies</summary>
+        <summary>Dependencies (#{@gems_dependencies.size})</summary>
 
         #{to_table_dependencies}
       </details>
