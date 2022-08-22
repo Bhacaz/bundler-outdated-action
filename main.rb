@@ -1,4 +1,4 @@
-`gem install octokit`
+`gem install octokit -v 4.25.1`
 
 require_relative 'parsing'
 require_relative 'github_issue_service'
