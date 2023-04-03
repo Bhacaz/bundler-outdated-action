@@ -13,6 +13,7 @@ class GithubIssueService
       content = @client.content(@repo, { path: gemfile_path })[:content]
       File.write(gemfile_path, Base64.decode64(content))
     end
+    remove_path_gems_in_gemfile!
   end
 
   def bundler_version
@@ -38,5 +39,15 @@ class GithubIssueService
 
   def create_the_issue
     @client.create_issue(@repo, ISSUE_TITLE)
+  end
+
+  # Bundle failed if we only download Gemfiles without gem
+  # that are in a path (embedded gems).
+  def remove_path_gems_in_gemfile!
+    file = File.open('Gemfile', 'r')
+    lines = file.each_line.to_a
+    file.close
+    lines.reject! { |line| line.include?('path:') }
+    File.open('Gemfile', 'w') { |f| f.puts lines }
   end
 end
