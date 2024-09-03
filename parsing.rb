@@ -69,8 +69,8 @@ class Parsing
   end
 
   def badge_link
-    puts ENV['GITHUB_WORKFLOW']
-    workflow_file = ENV['GITHUB_WORKFLOW'].split('/').detect { |path| path.include?('.yml') }
+    # .github/workflows/my-workflow.yml@refs/pull/123456/merge
+    workflow_file = ENV['GITHUB_WORKFLOW'].split('@').first.split('/').last
     # uri = CGI.escape("https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg")
     # "![#{ENV['GITHUB_WORKFLOW']}](#{uri})"
     "[![Outdated Gems](https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{workflow_file}/badge.svg)](https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{workflow_file})"
