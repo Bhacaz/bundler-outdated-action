@@ -69,8 +69,8 @@ class Parsing
   end
 
   def badge_link
-    # uri = CGI.escape("https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg")
-    # "![#{ENV['GITHUB_WORKFLOW']}](#{uri})"
-    "[![Outdated Gems](https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg)](https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{ENV['GITHUB_WORKFLOW']})"
+    uri = CGI.escape("https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg")
+    "![#{ENV['GITHUB_WORKFLOW']}](#{uri})"
+    # "[![Outdated Gems](https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg)](https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{ENV['GITHUB_WORKFLOW']})"
   end
 end
