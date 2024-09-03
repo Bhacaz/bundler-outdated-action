@@ -9,12 +9,12 @@ The result look like this:
 
 `bundle outdated --strict`
 
-|Gem|Installed|Newest|Groups|
-|---|---|---|---|
-|[byebug](https://rubygems.org/gems/byebug)|11.1.1|11.1.3|development, test|
-|[figaro](https://rubygems.org/gems/figaro)|1.1.1|1.2.0|default|
-|[sidekiq](https://rubygems.org/gems/sidekiq)|6.0.6|6.0.7|default|
-|[web-console](https://rubygems.org/gems/web-console)|4.0.1|4.0.2|development|
+|Gem| Current |Newest|Groups|
+|---|---------|---|---|
+|[byebug](https://rubygems.org/gems/byebug)| 11.1.1  |11.1.3|development, test|
+|[figaro](https://rubygems.org/gems/figaro)| 1.1.1   |1.2.0|default|
+|[sidekiq](https://rubygems.org/gems/sidekiq)| 6.0.6   |6.0.7|default|
+|[web-console](https://rubygems.org/gems/web-console)| 4.0.1   |4.0.2|development|
 
 ---
 
@@ -32,27 +32,26 @@ name: 'Outdated Gems'
 on:
   push:
     branches:
-    - master
+      - master
 
 jobs:
   outdated_gems:
     runs-on: ubuntu-latest
     name: Outdated gems
     steps:
-      - name: Checkout gemfiles
-        uses: Bhacaz/checkout-files@v1
-        with:
-          files: Gemfile Gemfile.lock .ruby-version
-          token: ${{ secrets.GH_TOKEN }}
+      - name: Checkout repo
+        uses: actions/checkout@v4
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
       - name: 'Pull outdated gem action script'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: 'Bhacaz/bundler-outdated-action'
-      - name: 'Check outdated gems'
-        run: 'ruby main.rb'
+          path: 'bundler-outdated-action'
+      - name: 'Check outdated gems and update issue'
+        run: 'ruby bundler-outdated-action/main.rb'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GEMFILE_REPOSITORY: ${{ github.repository }} 
+          GEMFILE_REPOSITORY: ${{ github.repository }}
+          GITHUB_WORKFLOW: ${{ github.workflow_ref }}
 ```
