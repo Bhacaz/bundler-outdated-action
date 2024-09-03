@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
-`gem install octokit -v 9.1.0`
+require 'bundler/inline'
+
+gemfile do
+  source 'https://rubygems.org'
+  gem 'octokit'
+end
 
 require_relative 'parsing'
 require_relative 'github_issue_service'
