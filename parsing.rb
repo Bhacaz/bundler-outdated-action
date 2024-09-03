@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
+require 'cgi'
+
 class Parsing
-  EXPLICIT_REGEX = /\*\s(.+)\s\(.+?\s(.+?),.+?\s(.+?)\).+\"(.+)\"/.freeze
-  DEPENDENCIES_REGEX = /\*\s(.+)\s\(.+?\s(.+?),.+?\s(.+?)\)/.freeze
+  LINE_REGEX = /\s\s+/.freeze
 
   attr_accessor :gems_explicit
 
@@ -30,39 +33,33 @@ class Parsing
   private
 
   def extract_data
-    @output.split("\n").each do |line|
-      if line.include?('*')
-        parsed_line = value_from_line(line)
-        if parsed_line[:groups]
-          @gems_explicit << parsed_line
-        else
-          @gems_dependencies << parsed_line
-        end
+    table = @output.split("\n\n").last
+    table = table.split("\n")
+    table.shift
+
+    table.each do |line|
+      name, current, newest, _requested, groups = line.split(LINE_REGEX)
+      parsed_line = { name: name, newest: newest, current: current, groups: groups }
+      if parsed_line[:groups]
+        @gems_explicit << parsed_line
+      else
+        @gems_dependencies << parsed_line
       end
     end
   end
 
-  def value_from_line(line)
-    if line.include?('groups')
-      name, newest, installed, groups = line.match(EXPLICIT_REGEX).captures
-    else
-      name, newest, installed, groups = line.match(DEPENDENCIES_REGEX).captures
-    end
-    { name: name, newest: newest, installed: installed, groups: groups }
-  end
-
   def to_table
-    table = +"|Gem|Installed|Newest|Groups|\n|---|---|---|---|\n"
+    table = +"|Gem|Current|Newest|Groups|\n|---|---|---|---|\n"
     @gems_explicit.each do |gem|
-      table << "|#{rubygem_link(gem[:name])}|#{gem[:installed]}|#{gem[:newest]}|#{gem[:groups]}|\n"
+      table << "|#{rubygem_link(gem[:name])}|#{gem[:current]}|#{gem[:newest]}|#{gem[:groups]}|\n"
     end
     table
   end
 
   def to_table_dependencies
-    table = +"|Gem|Installed|Newest|\n|---|---|---|\n"
+    table = +"|Gem|Current|Newest|\n|---|---|---|\n"
     @gems_dependencies.each do |gem|
-      table << "|#{rubygem_link(gem[:name])}|#{gem[:installed]}|#{gem[:newest]}|\n"
+      table << "|#{rubygem_link(gem[:name])}|#{gem[:current]}|#{gem[:newest]}|\n"
     end
     table
   end
@@ -72,7 +69,8 @@ class Parsing
   end
 
   def badge_link
-    uri = URI.encode("https://github.com/#{ENV['GEMFILE_REPOSITORY']}/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg")
-    "![#{ENV['GITHUB_WORKFLOW']}](#{uri})"
+    # uri = CGI.escape("https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg")
+    # "![#{ENV['GITHUB_WORKFLOW']}](#{uri})"
+    "[![Outdated Gems](https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg)](https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{ENV['GITHUB_WORKFLOW']})"
   end
 end
