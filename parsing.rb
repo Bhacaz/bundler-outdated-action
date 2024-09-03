@@ -70,6 +70,7 @@ class Parsing
 
   def badge_link
     # .github/workflows/my-workflow.yml@refs/pull/123456/merge
+    puts ENV['GITHUB_WORKFLOW']
     workflow_file = ENV['GITHUB_WORKFLOW'].split('@').first.split('/').last
     # uri = CGI.escape("https://github.com/#{ENV['GEMFILE_REPOSITORY']}/actions/workflows/#{ENV['GITHUB_WORKFLOW']}/badge.svg")
     # "![#{ENV['GITHUB_WORKFLOW']}](#{uri})"
